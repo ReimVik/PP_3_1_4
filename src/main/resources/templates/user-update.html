@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en"><meta charset="UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<meta charset="UTF-8">
 <title>Create user</title>
 </head>
 <body>
@@ -19,6 +20,12 @@
   <input type="text" th:field="*{email}" id="email" placeholder="Email">
   <input type="submit" value="Update User">
 </form>
-
+<div>
+  <div class="float" sec:authorize="isAuthenticated()">
+    <form  th:action="@{/logout}" method="post">
+      <input type="submit" value="Logout">
+    </form>
+  </div>
+</div>
 </body>
 </html>

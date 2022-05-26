@@ -43,5 +43,12 @@
 <form th:action="@{/admin/new}">
     <button><b>New User</b></button>
 </form>
+<div>
+    <div class="float" sec:authorize="isAuthenticated()">
+        <form  th:action="@{/logout}" method="post">
+                <input type="submit" value="Logout">
+        </form>
+    </div>
+</div>
 </body>
 </html>
