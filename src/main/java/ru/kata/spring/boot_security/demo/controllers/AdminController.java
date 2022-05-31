@@ -39,6 +39,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+
     @GetMapping("/user-update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         User user = userService.findById(id);
