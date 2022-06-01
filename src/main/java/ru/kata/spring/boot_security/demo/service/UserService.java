@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.configs.WebSecurityConfig;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
+
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -34,6 +36,7 @@ public class UserService implements UserDetailsService {
     }
 
     public Object save(User user) {
+        user.setPassword(WebSecurityConfig.passwordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
 
