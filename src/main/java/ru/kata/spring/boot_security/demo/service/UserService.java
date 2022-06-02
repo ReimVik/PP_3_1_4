@@ -27,10 +27,6 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -47,11 +43,6 @@ public class UserService implements UserDetailsService {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
-
-    public User findById(long id) {
-        return userRepository.findById(id);
-    }
-
 
 
     @Override

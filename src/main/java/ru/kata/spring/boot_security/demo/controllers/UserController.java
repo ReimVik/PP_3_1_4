@@ -18,11 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String homePage() {
-        return "redirect:/admin";
-    }
-
     @GetMapping("/user")
     public String getPrincipal(Principal principal, Model model) {
         User user = userService.findByEmail(principal.getName());

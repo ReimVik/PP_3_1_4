@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +13,13 @@ import java.security.Principal;
 @RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
+
 
     @GetMapping
     public String index(Principal principal,Model model) {
@@ -29,15 +29,8 @@ public class AdminController {
         return "index";
     }
 
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("newUser", new User());
-        return "new";
-    }
-
     @PostMapping
-    public String create(User user,
-                         @RequestParam(value = "rolesId", required = false) String[] roles) {
+    public String create(User user, @RequestParam(value = "rolesId", required = false) String[] roles) {
         user.setRoles(roleService.getSetRoles(roles));
         userService.save(user);
         return "redirect:/admin";
@@ -49,15 +42,9 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/user-update/{id}")
-    public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "user-update";
-    }
-
     @PatchMapping("/user-update")
-    public String updateUser(@ModelAttribute() User user) {
+    public String updateUser(User user, @RequestParam(value = "rolesId") String[] roles) {
+        user.setRoles(roleService.getSetRoles(roles));
         userService.save(user);
         return "redirect:/admin";
     }
