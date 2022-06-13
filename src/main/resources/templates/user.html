@@ -64,25 +64,26 @@
                                         <thead>
                                         <tr>
                                             <th scope="col">ID</th>
-                                            <th scope="col">First Name</th>
-                                            <th scope="col">Last Name</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">First name</th>
+                                            <th scope="col">Last name</th>
                                             <th scope="col">Age</th>
-                                            <th scope="col">Email</th>
+                                            <th scope="col">Password</th>
                                             <th scope="col">Role</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <tr th:each="user : ${users}">
                                             <td th:text="${user.getId}">ID</td>
-                                            <td th:text="${user.getFirstName}">First Name</td>
+                                            <td th:text="${user.getUsername}">Username</td>
+                                            <td th:text="${user.getName}">First Name</td>
                                             <td th:text="${user.getLastName}">Last Name</td>
                                             <td th:text="${user.getAge}">Age</td>
-                                            <td th:text="${user.getEmail}">Email</td>
+                                            <td th:text="${user.getPassword}">Password</td>
                                             <td><a th:each="rol : ${user.getRoles()}"
                                                    th:text="${rol.getName()}+' '">
                                                 Role
                                             </a>
-
                                         </tr>
                                         </tbody>
                                     </table>
