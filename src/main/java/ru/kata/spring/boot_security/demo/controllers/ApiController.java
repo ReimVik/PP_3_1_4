@@ -55,32 +55,4 @@ public class ApiController {
     public void deleteUser(@PathVariable int id) {
         userService.deleteById(id);
     }
-
-//    @GetMapping
-//    public String index(Principal principal,Model model) {
-//        User user = userService.findByEmail(principal.getName());
-//        model.addAttribute("users", userService.findAll());
-//        model.addAttribute("user", user);
-//        return "index";
-//    }
-//
-//    @PostMapping
-//    public String create(User user, @RequestParam(value = "rolesId", required = false) String[] roles) {
-//        user.setRoles(roleService.getSetRoles(roles));
-//        userService.save(user);
-//        return "redirect:/admin";
-//    }
-//
-//    @DeleteMapping("/user-remove/{id}")
-//    public String remove(@PathVariable("id") long id) {
-//        userService.deleteById(id);
-//        return "redirect:/admin";
-//    }
-//
-//    @PatchMapping("/user-update")
-//    public String updateUser(User user, @RequestParam(value = "rolesId") String[] roles) {
-//        user.setRoles(roleService.getSetRoles(roles));
-//        userService.save(user);
-//        return "redirect:/admin";
-//    }
 }

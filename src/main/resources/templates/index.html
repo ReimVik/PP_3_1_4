@@ -487,12 +487,12 @@
         </div>
     </div>
 </section>
+</body>
 <script>
-    function refresh(data) {
+    //Refreshing table
+    function refresh() {
         fetch('http://localhost:8080/api/users')
-            .then((response) => {
-                return response.json();
-            })
+            .then(response => response.json())
             .then((data) => {
                 refreshTable(data);
             });
@@ -524,45 +524,44 @@
         }
     }
 
-    refresh();
+    // Adding new User
 
+    const addPostForm = document.querySelector('.add-post-form');
+    const sss = document.getElementById('newUsername');
 
-const addPostForm = document.querySelector('.add-post-form');
-const sss = document.getElementById('newUsername');
+    addPostForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        console.log(sss.value);
 
-addPostForm.addEventListener('submit', (e)=>{
-e.preventDefault();
-console.log(sss.value);
-
-fetch('http://localhost:8080/api/users/new', {
-    method: "POST",
-    headers: {
-        "Content-type": "application/json",
-    },
-    body: JSON.stringify({
-        username: $('#newUsername').val(),
-        name: $('#newName').val(),
-        lastName: $('#newLastName').val(),
-        password: $('#newPassword').val(),
-        age: $('#newAge').val(),
-        roles: [
-            document.getElementById('rolesChange').value
-        ],
-    }),
-})
-    .then(res=>res.json())
-    .then(data=>{
-        const dataArr = [];
-        dataArr.push(data);
-        refresh(data);
+        fetch('http://localhost:8080/api/users/new', {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+                username: $('#newUsername').val(),
+                name: $('#newName').val(),
+                lastName: $('#newLastName').val(),
+                password: $('#newPassword').val(),
+                age: $('#newAge').val(),
+                roles: [
+                    document.getElementById('rolesChange').value
+                ],
+            }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                const dataArr = [];
+                dataArr.push(data);
+                refresh(data);
+            })
+        newUsername.value = '';
+        newName.value = '';
+        newLastName.value = '';
+        newPassword.value = '';
+        newAge.value = '';
+        rolesChange.value = '';
     })
-    newUsername.value = '';
-    newName.value = '';
-    newLastName.value = '';
-    newPassword.value = '';
-    newAge.value = '';
-    rolesChange.value = '';
-})
     // async function addNewUser() {
     //     await fetch('http://localhost:8080/api/users/new', {
     //         method: "POST",
@@ -587,108 +586,114 @@ fetch('http://localhost:8080/api/users/new', {
     // }
 
 
+    // function editModal(id) {
+    // let editButton = document.querySelector('.btn btn-primary');
+    //     fetch('http://localhost:8080/api/users/' + id)
+    //         .then(response => response.json())
+    //         .then(user => fillFields(user))
+    //
+    //     function fillFields(user){
+    //         $('#editId').val(user.id);
+    //         $('#editUsername').val(user.username);
+    //         $('#editFirstName').val(user.name);
+    //         $('#editLastName').val(user.lastName);
+    //         $('#editAge').val(user.age);
+    //         $('#editPassword').val(user.password);
+    //
+    //         editButton.addEventListener('submit',(e)=>{
+    //             e.preventDefault();
+    //             // console.log('post updated')
+    //             fetch('http://localhost:8080/api/users/update/' + editId.value,{
+    //                 method: 'PUT',
+    //                 headers: {
+    //                     'Accept': 'application/json',
+    //                     'Content-Type': 'application/json',
+    //                 },
+    //                         body: JSON.stringify({
+    //                             id: document.getElementById('editId').value,
+    //                             username: document.getElementById('editUsername').value,
+    //                             name: document.getElementById('editFirstName').value,
+    //                             lastName: document.getElementById('editLastName').value,
+    //                             password: document.getElementById('editPassword').value,
+    //                             age: document.getElementById('editAge').value,
+    //                             roles: [
+    //                                 document.getElementById('editRole').value
+    //                             ],
+    //                         }),
+    //             })
+    //                 .then(res=>res.json())
+    //                 .then(()=>location.reload())
+    //         })
+    //
+    //         // edit.onclick = function (){
+    //         //     editUser(user.id);
+    //         // };
+    //     }
+    // }
+
+    // Editing User
+
     function editModal(id) {
-    let editButton = document.querySelector('.btn btn-primary');
+        let editButton = document.querySelector('.btn btn-primary');
         fetch('http://localhost:8080/api/users/' + id)
             .then(response => response.json())
             .then(user => fillFields(user))
 
-        function fillFields(user){
+        function fillFields(user) {
             $('#editId').val(user.id);
             $('#editUsername').val(user.username);
             $('#editFirstName').val(user.name);
             $('#editLastName').val(user.lastName);
             $('#editAge').val(user.age);
             $('#editPassword').val(user.password);
-
-            editButton.addEventListener('submit',()=>{
-                console.log('post updated')
-                fetch('http://localhost:8080/api/users/update/' + editId.value,{
-                    method: 'PUT',
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                            body: JSON.stringify({
-                                id: document.getElementById('editId').value,
-                                username: document.getElementById('editUsername').value,
-                                name: document.getElementById('editFirstName').value,
-                                lastName: document.getElementById('editLastName').value,
-                                password: document.getElementById('editPassword').value,
-                                age: document.getElementById('editAge').value,
-                                roles: [
-                                    document.getElementById('editRole').value
-                                ],
-                            }),
-                })
-                    .then(res=>res.json())
-                    .then(()=>location.reload())
-            })
-
-            // edit.onclick = function (){
-            //     editUser(user.id);
-            // };
+            edit.onclick = function () {
+                editUser(user.id);
+            };
         }
     }
-    // async function editUser(id) {
-    //     await fetch('http://localhost:8080/api/users/update/' + id, {
-    //         method: 'PUT',
-    //         headers: {
-    //             "Content-type": "application/json; charset=UTF-8",
-    //         },
-    //         // body: JSON.stringify({
-    //         //     "id": "94",
-    //         //     "username": "sssaaaq",
-    //         //     "name": "555",
-    //         //     "lastName": "555",
-    //         //     "password": "555",
-    //         //     "age": "555",
-    //         //     "roles": [
-    //         //         {
-    //         //             "id": "2"
-    //         //         }
-    //         //     ]
-    //         // }), // Тело запроса в JSON-формате
-    //         body: JSON.stringify({
-    //             id: document.getElementById('editId').value,
-    //             username: document.getElementById('editUsername').value,
-    //             name: document.getElementById('editFirstName').value,
-    //             lastName: document.getElementById('editLastName').value,
-    //             password: document.getElementById('editPassword').value,
-    //             age: document.getElementById('editAge').value,
-    //             roles: [
-    //
-    //                 document.getElementById('editRole').value
-    //
-    //             ],
-    //         }),
-    //     })
-    //
-    //
-    //         .then(() => {
-    //             alert("GGG")
-    //         });
-    // }
+
+    async function editUser(id) {
+        await fetch('http://localhost:8080/api/users/update/' + id, {
+            method: 'PUT',
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify({
+                id: document.getElementById('editId').value,
+                username: document.getElementById('editUsername').value,
+                name: document.getElementById('editFirstName').value,
+                lastName: document.getElementById('editLastName').value,
+                password: document.getElementById('editPassword').value,
+                age: document.getElementById('editAge').value,
+                roles: [
+                    document.getElementById('editRole').value
+                ],
+            }),
+
+        })
+        console.log("Success")
+    }
 
     // document.getElementById('edit').onclick = function() {
     //     document.forms.modalEdit.reset(); // сбрасываем форму
     //     location.reload(); // перезагружаем страницу
     // }
 
-
+    //Deleting Users
 
     function deleteModal(id) {
         fetch('http://localhost:8080/api/users/' + id)
             .then(response => response.json())
             .then(user => fillFields(user))
 
-        function fillFields(user){
+        function fillFields(user) {
             $('#deleteId').val(user.id);
             $('#deleteUsername').val(user.username);
             $('#deleteFirstName').val(user.name);
             $('#deleteLastName').val(user.lastName);
             $('#deleteAge').val(user.age);
             $('#deletePassword').val(user.password);
-            del.onclick = function (){
+            del.onclick = function () {
                 deleteUser(user.id);
             };
         }
@@ -703,6 +708,7 @@ fetch('http://localhost:8080/api/users/new', {
             });
     }
 
+    refresh();
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
@@ -714,5 +720,5 @@ fetch('http://localhost:8080/api/users/new', {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
         integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
-</body>
+<!--    <script type="text/javascript" th:src="@{js/main.js}" src="ad.js"></script>-->
 </html>
